@@ -17,7 +17,7 @@ public class CellService extends Service {
 
     private MobileNetworkHelper mobileNetworkHelper;
     private CDRReceiver cdrReceiver = new CDRReceiver();
-    private GeoDatabaseHelper geoDatabaseHelper;
+   // private GeoDatabaseHelper geoDatabaseHelper;
 
     public CellService() {
     }
@@ -30,7 +30,7 @@ public class CellService extends Service {
         super.onCreate();
         instance = this;
         mobileNetworkHelper = MobileNetworkHelper.getInstance(this);
-        geoDatabaseHelper = GeoDatabaseHelper.getInstance(this);
+      //  geoDatabaseHelper = GeoDatabaseHelper.getInstance(this);
         Toast.makeText(this, "Service is created", Toast.LENGTH_LONG).show();
     }
 
@@ -68,30 +68,32 @@ public class CellService extends Service {
     }
 
 
-    private final class CDRReceiver implements CDRListener {
+    public final class CDRReceiver implements CDRListener {
         @Override
         public void onDataSession(Data data) {
             Log.d("CDRReceiver", "received data: " + data);
-            geoDatabaseHelper.insertRecord(data);
+            //geoDatabaseHelper.insertRecord(data);
         }
 
         @Override
         public void onCallRecord(Call call) {
             Log.d("CDRReceiver", "received call: " + call);
-            geoDatabaseHelper.insertRecord(call);
+            //geoDatabaseHelper.insertRecord(call);
         }
 
         @Override
         public void onTextMessage(TextMessage textMessage) {
             Log.d("CDRReceiver", "received text: " + textMessage);
-            geoDatabaseHelper.insertRecord(textMessage);
+            //geoDatabaseHelper.insertRecord(textMessage);
         }
 
         @Override
         public void onLocationUpdate(LocationUpdate locationUpdate) {
             Log.d("CDRReceiver", "received location update: " + locationUpdate);
-            geoDatabaseHelper.insertRecord(locationUpdate);
+            //geoDatabaseHelper.insertRecord(locationUpdate);
         }
     }
+
+
 
 }
