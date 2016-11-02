@@ -3,20 +3,14 @@ package de.tu_berlin.snet.cellservice;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
-import de.tu_berlin.snet.cellservice.model.database.GeoDatabaseHelper;
-import de.tu_berlin.snet.cellservice.model.record.Call;
-import de.tu_berlin.snet.cellservice.model.record.Data;
-import de.tu_berlin.snet.cellservice.model.record.LocationUpdate;
-import de.tu_berlin.snet.cellservice.model.record.TextMessage;
+
 
 public class CellService extends Service {
     private static Service instance;
 
     private MobileNetworkHelper mobileNetworkHelper;
-    private CDRReceiver cdrReceiver = new CDRReceiver();
    // private GeoDatabaseHelper geoDatabaseHelper;
 
     public CellService() {
@@ -29,8 +23,7 @@ public class CellService extends Service {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        mobileNetworkHelper = MobileNetworkHelper.getInstance(this);
-      //  geoDatabaseHelper = GeoDatabaseHelper.getInstance(this);
+        //mobileNetworkHelper = MobileNetworkHelper.getInstance(this);
         Toast.makeText(this, "Service is created", Toast.LENGTH_LONG).show();
     }
 
@@ -48,15 +41,15 @@ public class CellService extends Service {
                     Toast.LENGTH_LONG).show();
         }
 
-        mobileNetworkHelper.addListener(cdrReceiver);
-        mobileNetworkHelper.onStart();
+        //mobileNetworkHelper.addListener(cdrReceiver);
+       // mobileNetworkHelper.onStart();
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
-        mobileNetworkHelper.onStop();
-        mobileNetworkHelper.removeListener(cdrReceiver);
+       // mobileNetworkHelper.onStop();
+       // mobileNetworkHelper.removeListener(cdrReceiver);
         Toast.makeText(this, "Service is stopped", Toast.LENGTH_LONG).show();
         super.onDestroy();
     }
@@ -68,31 +61,6 @@ public class CellService extends Service {
     }
 
 
-    public final class CDRReceiver implements CDRListener {
-        @Override
-        public void onDataSession(Data data) {
-            Log.d("CDRReceiver", "received data: " + data);
-            //geoDatabaseHelper.insertRecord(data);
-        }
-
-        @Override
-        public void onCallRecord(Call call) {
-            Log.d("CDRReceiver", "received call: " + call);
-            //geoDatabaseHelper.insertRecord(call);
-        }
-
-        @Override
-        public void onTextMessage(TextMessage textMessage) {
-            Log.d("CDRReceiver", "received text: " + textMessage);
-            //geoDatabaseHelper.insertRecord(textMessage);
-        }
-
-        @Override
-        public void onLocationUpdate(LocationUpdate locationUpdate) {
-            Log.d("CDRReceiver", "received location update: " + locationUpdate);
-            //geoDatabaseHelper.insertRecord(locationUpdate);
-        }
-    }
 
 
 

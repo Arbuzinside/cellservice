@@ -9,13 +9,26 @@ import de.tu_berlin.snet.cellservice.model.record.TextMessage;
  *
  *
  * @author Markus Paeschke (markus.paeschke@gmail.com)
+ * @author dima (arbuzinside@gmail.com)
+ *
  */
+
 public interface CDRListener {
+
+
     void onDataSession(Data data);
 
-    void onCallRecord(Call call);
+    void onIncomingCallStart(Call call);
 
-    void onTextMessage(TextMessage textMessage);
+    void onIncomingCallEnd(Call call);
+
+    void onOutgoingCallStart(Call call);
+
+    void onOutgoingCallEnd(Call call);
+
+    void onIncomingTextMessage(TextMessage textMessage);
+
+    void onOutgoingTextMessage(TextMessage textMessage);
 
     void onLocationUpdate(LocationUpdate locationUpdate);
 }

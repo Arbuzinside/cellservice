@@ -224,7 +224,7 @@ public class MobileNetworkHelper extends ContextWrapper {
             CellInfo cell = mCellInfoObserver.getCurrentCellInfo();
             cell = addGPSLocation(addNetworkLocation(cell));
             for (CDRListener l : listeners) {
-                l.onTextMessage(new TextMessage(cell, "outgoing", Anonymizer.anonymize(receiverAddress)));
+                l.onOutgoingTextMessage(new TextMessage(cell, "outgoing", Anonymizer.anonymize(receiverAddress)));
             }
         }
     }
@@ -238,7 +238,7 @@ public class MobileNetworkHelper extends ContextWrapper {
                 cell = addGPSLocation(addNetworkLocation(cell));
                 // TODO: ACQUIRE THE NUMBER THE TEXT MESSAGE HAS BEEN RECEIVED FROM, INSTEAD of "secret"
                 for (CDRListener l : listeners) {
-                    l.onTextMessage(new TextMessage(cell, "incoming", Anonymizer.anonymize("secret")));
+                    l.onIncomingTextMessage(new TextMessage(cell, "incoming", Anonymizer.anonymize("secret")));
                 }
             }
         }
@@ -254,6 +254,13 @@ public class MobileNetworkHelper extends ContextWrapper {
             CellInfo cell = mCellInfoObserver.getCurrentCellInfo();
             cell = addGPSLocation(addNetworkLocation(cell));
             mCurrentCall = new Call(cell, "incoming", number, new ArrayList<Handover>());
+
+
+            for (CDRListener l : listeners) {
+                l.onIncomingCallStart(mCurrentCall);
+            }
+
+
         }
 
         @Override
@@ -262,7 +269,7 @@ public class MobileNetworkHelper extends ContextWrapper {
                 mCurrentCall.setEndTime(end);
                 mCurrentCall.setAddress(Anonymizer.anonymize(mCurrentCall.getAddress()));
                 for (CDRListener l : listeners) {
-                    l.onCallRecord(mCurrentCall);
+                    l.onIncomingCallEnd(mCurrentCall);
                 }
                 mCurrentCall = null;
             }
@@ -273,6 +280,11 @@ public class MobileNetworkHelper extends ContextWrapper {
             CellInfo cell = mCellInfoObserver.getCurrentCellInfo();
             cell = addGPSLocation(addNetworkLocation(cell));
             mCurrentCall = new Call(cell, "outgoing", number, new ArrayList<Handover>());
+
+
+            for (CDRListener l : listeners) {
+                l.onOutgoingCallStart(mCurrentCall);
+            }
         }
 
         @Override
@@ -281,7 +293,7 @@ public class MobileNetworkHelper extends ContextWrapper {
                 mCurrentCall.setEndTime(end);
                 mCurrentCall.setAddress(Anonymizer.anonymize(mCurrentCall.getAddress()));
                 for (CDRListener l : listeners) {
-                    l.onCallRecord(mCurrentCall);
+                    l.onOutgoingCallEnd(mCurrentCall);
                 }
                 mCurrentCall = null;
             }
