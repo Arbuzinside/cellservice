@@ -212,8 +212,9 @@ public class MobileNetworkHelper extends ContextWrapper {
             oldCell = addGPSLocation(addNetworkLocation(oldCell));
             newCell = addGPSLocation(addNetworkLocation(newCell));
 
-            for (CDRListener l : listeners) {
-                l.onLocationUpdate(new LocationUpdate(oldCell, newCell));
+                for (CDRListener l : listeners) {
+                    l.onLocationUpdate(new LocationUpdate(oldCell, newCell));
+
             }
         }
     }

@@ -10,9 +10,6 @@ import android.widget.Toast;
 public class CellService extends Service {
     private static Service instance;
 
-    private MobileNetworkHelper mobileNetworkHelper;
-   // private GeoDatabaseHelper geoDatabaseHelper;
-
     public CellService() {
     }
 
@@ -30,16 +27,7 @@ public class CellService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Service is started", Toast.LENGTH_LONG).show();
-        // catching data if it has been sent
-        try {
-            String message = intent.getStringExtra("key");
-            Toast.makeText(this, "data sent to service was \"" + message + "\"", Toast.LENGTH_LONG).show();
-            // otherwise catch exception
-        } catch (Exception e) {
-            Toast.makeText(this,
-                    String.format("didn't receive any data, but caught exception %s", e.getMessage()),
-                    Toast.LENGTH_LONG).show();
-        }
+
 
         //mobileNetworkHelper.addListener(cdrReceiver);
        // mobileNetworkHelper.onStart();
