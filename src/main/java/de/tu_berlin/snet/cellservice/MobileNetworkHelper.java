@@ -202,7 +202,12 @@ public class MobileNetworkHelper extends ContextWrapper {
                 if (mCurrentCall != null) {
                     oldCell = addGPSLocation(addNetworkLocation(oldCell));
                     newCell = addGPSLocation(addNetworkLocation(newCell));
-                    mCurrentCall.addHandover(new Handover(oldCell, newCell));
+                    Handover handover = new Handover(oldCell, newCell, mCurrentCall.getId());
+                    mCurrentCall.addHandover(handover);
+
+                    for (CDRListener l : listeners) {
+                        l.onHandoverDuringTheCall(handover);
+                    }
                 }
             }
         }
